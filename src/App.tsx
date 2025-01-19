@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {createBrowserRouter, Navigate, RouterProvider} from "react-router";
+import {SidebarProvider} from "./component/context/SidebarContext.tsx";
+import {RootLayout} from "./component/RootLayout.tsx";
+import {Staffs} from "./pages/Staff.tsx";
+import {Error} from "./pages/Error.tsx";
+import {Dashboard} from "./pages/Dashboard.tsx";
+import  {FieldForm} from "./pages/Field.tsx";
+import {CropForm} from "./pages/Crop.tsx";
+import {EquipmentForm} from "./pages/Equipment.tsx";
+import {VehicleForm} from "./pages/Vehicle.tsx";
+import Login from "./pages/Login.tsx";
+import Register from "./pages/Register.tsx";
+import {AuthProvider} from "./component/context/AuthContext.tsx";
+import {MonitoringForm} from "./pages/Monitoring.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const routes = createBrowserRouter([
+        { path: "/", element: <Navigate to="/login" replace /> },
+        { path: "/login", element: <Login /> },
+        { path: "/Register", element: <Register /> },
+        {
+            path: "/",
+            element: <RootLayout />,
+            children: [
+                { path: "/dashboard", element: <Dashboard /> },
+                { path: "/staff", element: <Staffs/> },
+                { path: "/field", element: <FieldForm/> },
+                { path: "/crop", element: <CropForm/> },
+                { path: "/equipment", element: <EquipmentForm/> },
+                { path: "/vehicle", element: <VehicleForm/> },
+                { path:"/monitoring",element:<MonitoringForm/>}
+            ],
+            errorElement: <Error />,
+        },
+        {
+            path: "*",
+            element: <Error />,
+        },
+    ]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return (
+        <AuthProvider>
+            <SidebarProvider>
+                <RouterProvider router={routes} />
+            </SidebarProvider>
+        </AuthProvider>
+
+    );
 }
-
-export default App
+export default App;
