@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.table{
+    width: 100%; /* Full width */
+    border-collapse: collapse;
+    border: 1px solid #D1D5DB;
+    background-color: transparent;
+
+}
+.table td{
+    color: black !important;
+}
+
+
+.table td{
+    background-color: transparent;
+}
+.table thead th{
+    color: gray;
+    background-color: white;
+}
+
+.main{
+    margin-top: 60px;
+}
+
+
